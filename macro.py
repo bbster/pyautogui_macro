@@ -26,7 +26,10 @@ import numpy as np
 
 # _img = np.array(pyautogui.screenshot())
 # img = cv2.cvtColor(_img, cv2.COLOR_RGB2GRAY)
-start = cv2.imread(("pythonpractice/start.jpg", cv2.IMREAD_GRAYSCALE))
+
+
+
+start = cv2.imread(("start.jpg", cv2.IMREAD_GRAYSCALE))
 
 cv2.imshow("start", start)
 cv2.waitKey(0)
