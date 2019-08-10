@@ -4,18 +4,23 @@ from mss import mss
 import numpy as np
 
 start_x = 10
-start_y = 550
+start_y = 650
 
 bbox = (start_x, start_y, start_x + 500, start_y + 1)
 
-cords_x = [10, 140, 270, 400]
+cords_x = [80, 200, 320, 440]
+
+# line_one_x = [60]
+# line_two_x = [200]
+# line_three_x = [330]
+# line_four_x = [460]
 
 def test_time():
     with mss() as sct:
         t1 = time.time()
         for i in range(100):
             img = sct.grab(bbox)
-            pyautogui.click(20, 400)
+            pyautogui.click(30, 500)
         t2 = time.time()
         print(t2 - t1)
 
@@ -26,20 +31,66 @@ def print_mouse_pos():
 
 def start():
     with mss() as sct:
-        while True:
-            img = sct.grab(bbox)
-            for cord in cords_x:
-                # print(img.pixel(cord, 0))
-                if img.pixel(cord, 0)[0] < 100 and img.pixel(cord, 0)[0] <= 230:
-                    pyautogui.click(start_x + cord, start_y)
-                    break
+      while True:
+        img = sct.grab(bbox)
+        for cord in cords_x:
+            # print(img.pixel(cord, 0))
+            if img.pixel(cord, 0)[0] < 100:
+                pyautogui.click(start_x + cord, start_y)
 
+                break
+
+            elif img.pixel(cord, 0)[2] < 100:
+                pyautogui.click(start_x + cord, start_y)
+                break
+
+start()
 # test_time()
 # print_mouse_pos()
-time.sleep(1)
-start()
 
 
+#### 라인별로 따로 체크 #####
+
+#
+# def line1():
+#     with mss() as sct:
+#         img = sct.grab(bbox)
+#         for cord in line_one_x:
+#             if img.pixel(cord, 0)[0] < 100:
+#                 pyautogui.press('A')
+#                 break
+#
+#
+# def line2():
+#     with mss() as sct:
+#         img = sct.grab(bbox)
+#         for cord in line_two_x:
+#             if img.pixel(cord, 0)[0] < 100:
+#                 pyautogui.press('S')
+#                 break
+#
+#
+# def line3():
+#     with mss() as sct:
+#         img = sct.grab(bbox)
+#         for cord in line_three_x:
+#             if img.pixel(cord, 0)[0] < 100:
+#                 pyautogui.press('D')
+#                 break
+#
+#
+# def line4():
+#     with mss() as sct:
+#         img = sct.grab(bbox)
+#         for cord in line_four_x:
+#             if img.pixel(cord, 0)[0] < 100:
+#                 pyautogui.press('F')
+#                 break
+# while True:
+#     line1()
+#     line2()
+#     line3()
+#     line4()
 # 10 520 , 140 520, 270 520, 400 520
 
 
