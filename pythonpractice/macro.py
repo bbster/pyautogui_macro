@@ -4,26 +4,27 @@ import asyncio
 import keyboard
 import os, time, subprocess
 import pyautogui
-from mss import mss
-import numpy as np
+# from mss import mss
+# import numpy as np
+from mss import windows
+from multiprocessing import Process
+
+window_mss = windows.MSS
 
 start_x = 0
-start_y = 650
-
-bbox = (start_x, start_y, start_x + 500, start_y + 1)
-
+start_y = 715
 cords_x = [55, 180, 295, 430]
 
-status = 0
+# status = 0
 
-def test_time():
-    with mss() as sct:
-        t1 = time.time()
-        for i in range(100):
-            img = sct.grab(bbox)
-            pyautogui.click(30, 500)
-        t2 = time.time()
-        print(t2 - t1)
+# def test_time():
+#     with mss() as sct:
+#         t1 = time.time()
+#         for i in range(100):
+#             img = sct.grab(bbox)
+#             pyautogui.click(30, 500)
+#         t2 = time.time()
+#         print(t2 - t1)
 
 
 def print_mouse_pos():
@@ -32,102 +33,72 @@ def print_mouse_pos():
         time.sleep(1)
 
 
-def start():
-    with mss() as sct:
-        while True:
-            if status == 1:
-                break
-            img = sct.grab(bbox)
-            for cord in cords_x:
-                # print(img.pixel(cord, 0))
-                if img.pixel(cord, 0)[0] < 100:
-                    pyautogui.click(start_x + cord, start_y)
-
-                elif img.pixel(cord, 0)[2] < 100:
-                    pyautogui.click(start_x + cord, start_y)
+# def start():
+#     with mss() as sct:
+#         while True:
+#             if status == 1:
+#                 break
+#             img = sct.grab(bbox)
+#             for cord in cords_x:
+#                 # print(img.pixel(cord, 0))
+#                 if img.pixel(cord, 0)[0] < 100:
+#                     pyautogui.click(start_x + cord, start_y)
+#
+#                 elif img.pixel(cord, 0)[2] < 100:
+#                     pyautogui.click(start_x + cord, start_y)
 
 
 # 라인별로 따로 체크 #
-line_one_x = [50]
-line_two_x = [180]
-line_three_x = [295]
-line_four_x = [430]
-
 
 def line1():
-    with mss() as sct:
-        img = sct.grab(bbox)
-        for cord in line_one_x:
-            if img.pixel(cord, 0)[0] < 100:
+    while True:
+        bbox = (40, 695, 85, 700)
+        with window_mss() as sct:
+            img = sct.grab(bbox)
+            if img.pixel(20, 0)[0] < 100:
                 pyautogui.press('A')
-                break
-            elif img.pixel(cord, 0)[2] < 100:
+            elif img.pixel(20, 0)[2] < 100:
                 pyautogui.press('A')
-                break
 
 
 def line2():
-    with mss() as sct:
-        img = sct.grab(bbox)
-        for cord in line_two_x:
-            if img.pixel(cord, 0)[0] < 100:
+    while True:
+        bbox = (185, 695, 235, 700)
+        with window_mss() as sct:
+            img = sct.grab(bbox)
+            if img.pixel(20, 0)[0] < 100:
                 pyautogui.press('S')
-                break
-            elif img.pixel(cord, 0)[2] < 100:
+            elif img.pixel(20, 0)[2] < 100:
                 pyautogui.press('S')
-                break
 
 
 def line3():
-    with mss() as sct:
-        img = sct.grab(bbox)
-        for cord in line_three_x:
-            if img.pixel(cord, 0)[0] < 100:
+    while True:
+        bbox = (325, 695, 365, 700)
+        with window_mss() as sct:
+            img = sct.grab(bbox)
+            if img.pixel(20, 0)[0] < 100:
                 pyautogui.press('D')
-                break
-            elif img.pixel(cord, 0)[2] < 100:
+            elif img.pixel(20, 0)[2] < 100:
                 pyautogui.press('D')
-                break
 
 
 def line4():
-    with mss() as sct:
-        img = sct.grab(bbox)
-        for cord in line_four_x:
-            if img.pixel(cord, 0)[0] < 100:
+    while True:
+        bbox = (465, 695, 510, 700)
+        with window_mss() as sct:
+            img = sct.grab(bbox)
+            if img.pixel(20, 0)[0] < 100:
                 pyautogui.press('F')
-                break
-            elif img.pixel(cord, 0)[2] < 100:
+            elif img.pixel(20, 0)[2] < 100:
                 pyautogui.press('F')
-                break
 
 
-def worker_line1():
-    while True:
-        line1()
-
-
-def worker_line2():
-    while True:
-        line2()
-
-
-def worker_line3():
-    while True:
-        line3()
-
-
-def worker_line4():
-    while True:
-        line4()
-
-
-from multiprocessing import Process
 def main():
-    Process(target=worker_line1).start()
-    Process(target=worker_line2).start()
-    Process(target=worker_line3).start()
-    Process(target=worker_line4).start()
+    Process(target=line1).start()
+    Process(target=line2).start()
+    Process(target=line3).start()
+    Process(target=line4).start()
 
     # threading.Thread(target=worker_line4()).start()
     # threading.Thread(target=worker_line2()).start()
@@ -146,7 +117,7 @@ def main():
 
 
 if __name__ == '__main__':
-    time.sleep(5)
+    time.sleep(3)
     # start()
     # test_time()
     # print_mouse_pos()
@@ -154,12 +125,12 @@ if __name__ == '__main__':
     # asyncio.get_event_loop().run_until_complete(main())
 
 
-def exit_handler():
-    global status
-    status = 1
-
-
-keyboard.add_hotkey('ctrl+c', exit_handler)
+# def exit_handler():
+#     global status
+#     status = 1
+#
+#
+# keyboard.add_hotkey('ctrl+c', exit_handler)
 # 10 520 , 140 520, 270 520, 400 520
 
 
