@@ -1,7 +1,3 @@
-import sys
-import threading
-import asyncio
-import keyboard
 import os, time, subprocess
 import pyautogui
 # from mss import mss
